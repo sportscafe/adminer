@@ -625,7 +625,18 @@ focus(document.getElementById('username'));
 	* @return null prints data
 	*/
 	function dumpDatabase($db) {
+        global $jush, $database_dump_addon;
+        if($jush == 'pgsql') $database_dump_addon = '';
 	}
+
+    /** Export database addon structure, eg. foreign keys for postgresql
+    * @param string
+    * @return null prints data
+    */
+    function dumpDatabaseAddon() {
+        global $jush, $database_dump_addon;
+        if($jush == 'pgsql') echo $database_dump_addon;
+    }
 
 	/** Export table structure
 	* @param string
