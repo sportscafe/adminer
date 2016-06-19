@@ -17,5 +17,5 @@ RUN cd /var/www/html \
     && php composer.phar install \
     && php compile.php \
     && mv adminer*.php index.php \
-    && cp designs/hevel/adminer.css .
+    && cp designs/hever/adminer.css .
 CMD ["apachectl", "-f", "/etc/apache2/apache2.conf", "-e", "info", "-DFOREGROUND"]
