@@ -3,7 +3,7 @@ $drivers["pgsql"] = "PostgreSQL";
 
 if (isset($_GET["pgsql"])) {
 	$possible_drivers = array("PgSQL", "PDO_PgSQL");
-    $database_dump_addon = '';
+  $database_dump_addon = '';
 	define("DRIVER", "pgsql");
 	if (extension_loaded("pgsql")) {
 		class Min_DB {
@@ -644,14 +644,14 @@ AND typelem = 0"
 
 			// sequences for fields
 			if(preg_match('~nextval\(\'([^\']+)\'\)~', $field['default'], $matches)) {
-			$sequence_name = $matches[1];
-				$sq = reset(get_rows("select * from {$sequence_name}"));
-				$sequences[] = "CREATE SEQUENCE {$sequence_name} INCREMENT {$sq['increment_by']} MINVALUE {$sq['min_value']} MAXVALUE {$sq['max_value']} START ".($auto_increment ? $sq['last_value'] : 1)." CACHE {$sq['cache_value']};";
+				$sequence_name = $matches[1];
+				$sq = reset(get_rows("select * from " . $sequence_name));
+				$sequences[] = "CREATE SEQUENCE " . $sequence_name . " INCREMENT " . $sq['increment_by'] . " MINVALUE " . $sq['min_value'] . " MAXVALUE " . $sq['max_value'] . " START ".($auto_increment ? $sq['last_value'] : 1)." CACHE " . $sq['cache_value'];
 			}
 		}
 
 		// adding sequences before table definition
-		if(!empty($sequences)) $return = implode("\n\n", $sequences)."\n\n{$return}";
+		if(!empty($sequences)) $return = implode("\n\n", $sequences)."\n\n".$return;
 
 		// primary + unique keys
 		foreach($indexes as $index_name => $index) {
@@ -737,7 +737,7 @@ AND typelem = 0"
 
 	function support($feature) {
 		global $connection;
-		return preg_match('~^(database|table|columns|sql|indexes|comment|view|' . ($connection->server_info >= 9.3 ? 'materializedview|' : '') . 'scheme|processlist|sequence|trigger|type|variables|drop_col|kill)$~', $feature); //! routine|
+		return preg_match('~^(database|table|columns|sql|indexes|comment|view|' . ($connection->server_info >= 9.3 ? 'materializedview|' : '') . 'scheme|processlist|sequence|trigger|type|variables|drop_col|kill|dump)$~', $feature); //! routine|
 	}
 
 	function kill_process($val) {
